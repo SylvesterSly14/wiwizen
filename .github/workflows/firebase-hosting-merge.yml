@@ -2,20 +2,26 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on merge
+
 on:
   push:
     branches:
       - main
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3df4ab11eba7bda44e9f7c212bb7b2a3d36b8c87
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+
       - name: Install dependencies and build
-        run: npm ci && npm run build
+        run: |
+          npm install
+          npm run build
+
       - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@31d8b36cbac6e04e7d8bca9a8d24822a6a8b54d6
+        uses: FirebaseExtended/action-hosting-deploy@<FULL_SHA>
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_WIWIZEN_31594 }}
