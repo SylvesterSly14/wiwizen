@@ -8,21 +8,27 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write   # ✅ allows deployment commits if needed
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+
     steps:
-      # Checkout repository (pinned SHA)
+      # ✅ Checkout full repo history
       - name: Checkout repository
         uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+        with:
+          fetch-depth: 0
 
-      # Install dependencies and build
+      # ✅ Install dependencies and build project
       - name: Install dependencies and build
         run: |
-          npm install
+          npm ci
           npm run build
 
-      # Deploy to Firebase Hosting (pinned SHA)
+      # ✅ Deploy to Firebase Hosting
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@e2eda2e106cfa35cdbcf4ac9ddaf6c4756df2c8c
         with:
