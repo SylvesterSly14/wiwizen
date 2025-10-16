@@ -12,16 +12,19 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
+      # Checkout repository (pinned SHA)
       - name: Checkout repository
         uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
 
+      # Install dependencies and build
       - name: Install dependencies and build
         run: |
           npm install
           npm run build
 
+      # Deploy to Firebase Hosting (pinned SHA)
       - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@<FULL_SHA>
+        uses: FirebaseExtended/action-hosting-deploy@e2eda2e106cfa35cdbcf4ac9ddaf6c4756df2c8c
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_WIWIZEN_31594 }}
