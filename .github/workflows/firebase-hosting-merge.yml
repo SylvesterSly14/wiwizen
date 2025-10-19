@@ -11,20 +11,24 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      # Checkout repository (pinned SHA)
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: npm install
+      # Install dependencies and build
+      - name: Install dependencies and build
+        run: |
+          npm ci
+          npm run build
 
-      - name: Build Next.js app
-        run: npm run build
-
+      # Deploy to Firebase Hosting (pinned SHA)
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WIWIZEN_31594 }}'
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_WIWIZEN_31594 }}
           channelId: live
           projectId: wiwizen-31594
 
